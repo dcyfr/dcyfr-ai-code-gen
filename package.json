@@ -1,0 +1,73 @@
+{
+  "name": "@dcyfr/ai-code-gen",
+  "version": "0.1.0",
+  "description": "AI-powered code generation toolkit - template generators, AST manipulation, intelligent scaffolding, and AI-assisted refactoring",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "dcyfr-codegen": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js"
+    }
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/ tests/",
+    "lint:fix": "eslint src/ tests/ --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "ts-morph": "^24.0.0",
+    "handlebars": "^4.7.8",
+    "glob": "^11.0.0",
+    "chalk": "^5.3.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^2.0.0",
+    "memfs": "^4.14.0"
+  },
+  "keywords": [
+    "code-generation",
+    "ai",
+    "typescript",
+    "ast",
+    "scaffolding",
+    "templates",
+    "refactoring",
+    "dcyfr"
+  ],
+  "author": "DCYFR <hello@dcyfr.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dcyfr/dcyfr-ai-code-gen.git"
+  },
+  "homepage": "https://www.dcyfr.ai",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

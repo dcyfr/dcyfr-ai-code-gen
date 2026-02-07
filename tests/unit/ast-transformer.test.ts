@@ -32,9 +32,7 @@ describe('AST Transformer', () => {
         { type: 'add-import', moduleSpecifier: 'zod', namedImports: ['z'] },
       ]);
       expect(result.success).toBe(true);
-      // Should not duplicate 'z'
-      const matches = result.source.match(/\bz\b/g);
-      // z appears in import and in variable assignment, but import only once
+      // Should not duplicate 'z' - z appears in import and in variable assignment, but import only once
       expect(result.source.split('import').length).toBe(2); // 1 import
     });
   });

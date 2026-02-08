@@ -165,6 +165,239 @@ describe('TemplateEngine', () => {
       expect(result.content).toBe('test2');
     });
   });
+
+  describe('getTemplate', () => {
+    it('should retrieve a registered template', () => {
+      const definition: TemplateDefinition = {
+        id: 'get-test',
+        name: 'GetTest',
+        description: 'Test template',
+        source: '{{name}}',
+        variables: [],
+        outputExtension: '.ts',
+      };
+
+      engine.registerTemplate(definition);
+      const retrieved = engine.getTemplate('get-test');
+
+      expect(retrieved).toBeDefined();
+      expect(retrieved?.id).toBe('get-test');
+      expect(retrieved?.name).toBe('GetTest');
+    });
+
+    it('should return undefined for unknown template', () => {
+      const result = engine.getTemplate('nonexistent');
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('template re-registration', () => {
+    it('should update template when registered again', () => {
+      const definition1: TemplateDefinition = {
+        id: 'update-test',
+        name: 'Original',
+        description: 'Original',
+        source: 'Hello {{name}}',
+        variables: [],
+        outputExtension: '.ts',
+      };
+
+      const definition2: TemplateDefinition = {
+        id: 'update-test',
+        name: 'Updated',
+        description: 'Updated',
+        source: 'Hi {{name}}',
+        variables: [],
+        outputExtension: '.ts',
+      };
+
+      engine.registerTemplate(definition1);
+      let result = engine.render('update-test', { name: 'World' });
+      expect(result.content).toBe('Hello World');
+
+      engine.registerTemplate(definition2);
+      result = engine.render('update-test', { name: 'World' });
+      expect(result.content).toBe('Hi World');
+    });
+
+    it('should invalidate cache when template re-registered', () => {
+      const definition1: TemplateDefinition = {
+        id: 'cache-test',
+        name: 'Cache',
+        description: 'Cache',
+        source: 'V1: {{name}}',
+        variables: [],
+        outputExtension: '.ts',
+      };
+
+      engine.registerTemplate(definition1);
+      engine.render('cache-test', { name: 'Test' });
+
+      const definition2: TemplateDefinition = {
+        ...definition1,
+        source: 'V2: {{name}}',
+      };
+
+      engine.registerTemplate(definition2);
+      const result = engine.render('cache-test', { name: 'Test' });
+      expect(result.content).toBe('V2: Test');
+    });
+  });
+
+  describe('built-in helper edge cases', () => {
+    it('should handle upperCase helper', () => {
+      const result = engine.renderSource('{{upperCase name}}', { name: 'hello' });
+      expect(result.content).toBe('HELLO');
+    });
+
+    it('should handle lowerCase helper', () => {
+      const result = engine.renderSource('{{lowerCase name}}', { name: 'WORLD' });
+      expect(result.content).toBe('world');
+    });
+
+    it('should handle indent with default spaces', () => {
+      const result = engine.renderSource('{{indent code}}', { code: 'line1\nline2' });
+      expect(result.content).toContain('  line1');
+      expect(result.content).toContain('  line2');
+    });
+
+    it('should handle indent with custom spaces', () => {
+      const result = engine.renderSource('{{indent code 4}}', { code: 'line1\nline2' });
+      expect(result.content).toContain('    line1');
+      expect(result.content).toContain('    line2');
+    });
+
+    it('should handle join with default separator', () => {
+      const result = engine.renderSource('{{join items}}', { items: ['a', 'b', 'c'] });
+      expect(result.content).toBe('a, b, c');
+    });
+
+    it('should handle join with custom separator', () => {
+      const result = engine.renderSource('{{join items " | "}}', { items: ['a', 'b', 'c'] });
+      expect(result.content).toBe('a | b | c');
+    });
+
+    it('should handle join with non-array input', () => {
+      const result = engine.renderSource('{{join notArray}}', { notArray: 'not an array' });
+      expect(result.content).toBe('');
+    });
+
+    it('should handle neq helper', () => {
+      const result = engine.renderSource('{{#if (neq a b)}}yes{{else}}no{{/if}}', { a: 1, b: 2 });
+      expect(result.content).toBe('yes');
+    });
+
+    it('should handle or helper', () => {
+      const result1 = engine.renderSource('{{#if (or a b)}}yes{{else}}no{{/if}}', { a: true, b: false });
+      expect(result1.content).toBe('yes');
+
+      const result2 = engine.renderSource('{{#if (or a b)}}yes{{else}}no{{/if}}', { a: false, b: false });
+      expect(result2.content).toBe('no');
+    });
+
+    it('should handle and helper', () => {
+      const result1 = engine.renderSource('{{#if (and a b)}}yes{{else}}no{{/if}}', { a: true, b: true });
+      expect(result1.content).toBe('yes');
+
+      const result2 = engine.renderSource('{{#if (and a b)}}yes{{else}}no{{/if}}', { a: true, b: false });
+      expect(result2.content).toBe('no');
+    });
+
+    it('should handle not helper', () => {
+      const result1 = engine.renderSource('{{#if (not a)}}yes{{else}}no{{/if}}', { a: false });
+      expect(result1.content).toBe('yes');
+
+      const result2 = engine.renderSource('{{#if (not a)}}yes{{else}}no{{/if}}', { a: true });
+      expect(result2.content).toBe('no');
+    });
+
+    it('should handle timestamp helper', () => {
+      const result = engine.renderSource('{{timestamp}}', {});
+      // Should be ISO format
+      expect(result.content).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    });
+
+    it('should handle year helper', () => {
+      const result = engine.renderSource('{{year}}', {});
+      const currentYear = new Date().getFullYear().toString();
+      expect(result.content).toBe(currentYear);
+    });
+
+    it('should handle typeAnnotation with type', () => {
+      const result = engine.renderSource('name{{typeAnnotation type}}', { type: 'string' });
+      expect(result.content).toBe('name: string');
+    });
+
+    it('should handle typeAnnotation without type', () => {
+      const result = engine.renderSource('name{{typeAnnotation type}}', { type: '' });
+      expect(result.content).toBe('name');
+    });
+
+    it('should handle genericType with parameter', () => {
+      const result = engine.renderSource('{{genericType base param}}', { base: 'Array', param: 'string' });
+      expect(result.content).toBe('Array<string>');
+    });
+
+    it('should handle genericType without parameter', () => {
+      const result = engine.renderSource('{{genericType base param}}', { base: 'Array', param: '' });
+      expect(result.content).toBe('Array');
+    });
+  });
+
+  describe('validateVariables edge cases', () => {
+    it('should return error for unknown template', () => {
+      const result = engine.validateVariables('nonexistent', {});
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain('Template not found');
+    });
+
+    it('should handle null value for required variable', () => {
+      engine.registerTemplate({
+        id: 'null-test',
+        name: 'NullTest',
+        description: '',
+        source: '',
+        variables: [{ name: 'value', type: 'string', description: '', required: true }],
+        outputExtension: '.ts',
+      });
+
+      const result = engine.validateVariables('null-test', { value: null });
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain('missing');
+    });
+
+    it('should handle undefined value for optional variable', () => {
+      engine.registerTemplate({
+        id: 'undef-test',
+        name: 'UndefTest',
+        description: '',
+        source: '',
+        variables: [{ name: 'value', type: 'string', description: '', required: false }],
+        outputExtension: '.ts',
+      });
+
+      const result = engine.validateVariables('undef-test', { value: undefined });
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate array type', () => {
+      engine.registerTemplate({
+        id: 'array-test',
+        name: 'ArrayTest',
+        description: '',
+        source: '',
+        variables: [{ name: 'items', type: 'array', description: '', required: true }],
+        outputExtension: '.ts',
+      });
+
+      const result1 = engine.validateVariables('array-test', { items: [1, 2, 3] });
+      expect(result1.valid).toBe(true);
+
+      const result2 = engine.validateVariables('array-test', { items: 'not an array' });
+      expect(result2.valid).toBe(false);
+      expect(result2.errors[0]).toContain('array');
+    });
+  });
 });
 
 describe('validateTemplateVariables', () => {

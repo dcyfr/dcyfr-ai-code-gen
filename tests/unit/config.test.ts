@@ -66,5 +66,64 @@ describe('Configuration', () => {
       const result = validateConfig(config);
       expect(result.valid).toBe(false);
     });
+
+    it('should require AI provider when ai config provided', () => {
+      const config = loadConfig({
+        ai: { provider: '', model: 'test' },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('provider'))).toBe(true);
+    });
+
+    it('should pass when AI config has valid temperature', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test', temperature: 0.7 },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should pass when AI config has no temperature (undefined)', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test' },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should fail when temperature is below 0', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test', temperature: -0.1 },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('temperature'))).toBe(true);
+    });
+
+    it('should fail when temperature is above 1', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test', temperature: 1.1 },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('temperature'))).toBe(true);
+    });
+
+    it('should allow temperature of exactly 0', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test', temperature: 0 },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(true);
+    });
+
+    it('should allow temperature of exactly 1', () => {
+      const config = loadConfig({
+        ai: { provider: 'mock', model: 'test', temperature: 1 },
+      });
+      const result = validateConfig(config);
+      expect(result.valid).toBe(true);
+    });
   });
 });

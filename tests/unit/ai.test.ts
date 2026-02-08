@@ -2,8 +2,8 @@
  * Tests for AI code generation module
  */
 
-import { describe, it, expect } from 'vitest';
-import { AICodeGenerator, createAICodeGenerator, MockAIProvider } from '../../src/ai/index.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { AICodeGenerator, createAICodeGenerator, MockAIProvider, createAIProvider } from '../../src/ai/index.js';
 import {
   generateCodePrompt,
   reviewCodePrompt,
@@ -112,6 +112,57 @@ describe('MockAIProvider', () => {
     const result = await provider.complete('Some prompt');
     expect(result).toContain('Mock completion');
   });
+
+  it('should generate code with framework context', async () => {
+    const provider = new MockAIProvider();
+    const result = await provider.generate({
+      prompt: 'Create a component',
+      language: 'TypeScript',
+      framework: 'React',
+    });
+    expect(result.code).toContain('Framework: React');
+  });
+
+  it('should generate code with constraints', async () => {
+    const provider = new MockAIProvider();
+    const result = await provider.generate({
+      prompt: 'Create a function',
+      language: 'TypeScript',
+      constraints: ['No side effects', 'Pure function'],
+    });
+    expect(result.code).toContain('Constraints: No side effects, Pure function');
+  });
+
+  it('should generate non-TypeScript code with fallback', async () => {
+    const provider = new MockAIProvider();
+    const result = await provider.generate({
+      prompt: 'Create a main function',
+      language: 'Python',
+    });
+    expect(result.code).toContain('Python code');
+    expect(result.code).toContain('Create a main function');
+  });
+
+  it('should handle JavaScript as TypeScript variant', async () => {
+    const provider = new MockAIProvider();
+    const result = await provider.generate({
+      prompt: 'Create a utility',
+      language: 'ts',
+    });
+    expect(result.code).toContain('function generatedFunction');
+  });
+
+  it('should calculate token usage', async () => {
+    const provider = new MockAIProvider();
+    const longPrompt = 'Create a '.repeat(100);
+    const result = await provider.generate({
+      prompt: longPrompt,
+      language: 'TypeScript',
+    });
+    expect(result.usage.promptTokens).toBe(longPrompt.length);
+    expect(result.usage.completionTokens).toBe(result.code.length);
+    expect(result.usage.totalTokens).toBe(longPrompt.length + result.code.length);
+  });
 });
 
 describe('AICodeGenerator', () => {
@@ -175,5 +226,55 @@ describe('AICodeGenerator', () => {
       });
       expect(result).toBeTruthy();
     });
+  });
+});
+
+describe('createAIProvider', () => {
+  let warnSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    warnSpy.mockRestore();
+  });
+
+  it('should create a mock provider', () => {
+    const provider = createAIProvider({ provider: 'mock', model: 'test' });
+    expect(provider.name).toBe('mock');
+  });
+
+  it('should warn and return mock for unsupported openai provider', () => {
+    const provider = createAIProvider({ provider: 'openai', model: 'gpt-4' });
+    expect(provider.name).toBe('mock');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('openai')
+    );
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('not yet implemented')
+    );
+  });
+
+  it('should warn and return mock for unsupported anthropic provider', () => {
+    const provider = createAIProvider({ provider: 'anthropic', model: 'claude' });
+    expect(provider.name).toBe('mock');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('anthropic')
+    );
+  });
+
+  it('should warn and return mock for unsupported local provider', () => {
+    const provider = createAIProvider({ provider: 'local', model: 'llama' });
+    expect(provider.name).toBe('mock');
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('local')
+    );
+  });
+
+  it('should throw for unknown provider', () => {
+    expect(() => {
+      createAIProvider({ provider: 'invalid-provider' as any, model: 'test' });
+    }).toThrow('Unknown AI provider');
   });
 });

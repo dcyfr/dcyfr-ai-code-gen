@@ -2,9 +2,9 @@
 
 > AI-powered code generation toolkit with AST manipulation, template engine, and intelligent scaffolding.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-24+-green.svg)](https://nodejs.org/)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 
 ## Overview
@@ -24,7 +24,7 @@
 ✅ **Code Generators** — Pre-built generators for React components, API routes, data models, test files, and barrel exports  
 ✅ **AST Module** — Parse, transform, analyze, and format TypeScript code using ts-morph  
 ✅ **AI Integration** — Pluggable AI provider system for intelligent code generation, review, and refactoring  
-✅ **&#39;CLI** — Command-line interface for scaffolding, analysis, and code review  
+✅ **CLI** — Command-line interface for scaffolding, analysis, and code review  
 ✅ **Extensible** — Register custom templates, generators, and AI providers  
 ✅ **Type-Safe** — Full TypeScript support with strict mode enabled  
 ✅ **Well-Tested** — Comprehensive test suite with Vitest
@@ -461,7 +461,7 @@ npm run lint
 
 ## Requirements
 
-- Node.js >= 20
+- Node.js >= 24
 - TypeScript >= 5.3
 
 ## License

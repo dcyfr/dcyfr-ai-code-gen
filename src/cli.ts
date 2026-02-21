@@ -105,6 +105,31 @@ EXAMPLES:
 `);
 }
 
+function buildGenerateOptions(flags: Record<string, unknown>): Record<string, unknown> {
+  const options: Record<string, unknown> = {};
+  if (flags.methods) {
+    options.methods = (flags.methods as string).split(',');
+  }
+  if (flags.fields) {
+    options.fields = (flags.fields as string).split(',').map((f) => {
+      const [fieldName, zodType] = f.split(':');
+      return { name: fieldName, zodType: zodType ?? 'string' };
+    });
+  }
+  if (flags['with-test']) options.withTest = true;
+  if (flags['use-client']) options.useClient = true;
+  if (flags['has-children']) options.hasChildren = true;
+  if (flags['has-auth']) options.hasAuth = true;
+  return options;
+}
+
+function getSeverityIcon(severity: string): string {
+  if (severity === 'error') return '✗';
+  if (severity === 'warning') return '⚠';
+  if (severity === 'suggestion') return '💡';
+  return 'ℹ';
+}
+
 /**
  * Handle the 'generate' command.
  */
@@ -129,29 +154,7 @@ async function handleGenerate(parsed: ParsedArgs): Promise<void> {
   }
 
   // Build options from flags
-  const options: Record<string, unknown> = {};
-
-  if (parsed.flags.methods) {
-    options.methods = (parsed.flags.methods as string).split(',');
-  }
-  if (parsed.flags.fields) {
-    options.fields = (parsed.flags.fields as string).split(',').map((f) => {
-      const [fieldName, zodType] = f.split(':');
-      return { name: fieldName, zodType: zodType ?? 'string' };
-    });
-  }
-  if (parsed.flags['with-test']) {
-    options.withTest = true;
-  }
-  if (parsed.flags['use-client']) {
-    options.useClient = true;
-  }
-  if (parsed.flags['has-children']) {
-    options.hasChildren = true;
-  }
-  if (parsed.flags['has-auth']) {
-    options.hasAuth = true;
-  }
+  const options = buildGenerateOptions(parsed.flags);
 
   logger.info(`Generating ${generatorName}: ${name}`);
 
@@ -242,14 +245,7 @@ async function handleReview(parsed: ParsedArgs): Promise<void> {
   if (result.findings.length > 0) {
     console.log('\nFindings:');
     for (const finding of result.findings) {
-      const icon =
-        finding.severity === 'error'
-          ? '✗'
-          : finding.severity === 'warning'
-            ? '⚠'
-            : finding.severity === 'suggestion'
-              ? '💡'
-              : 'ℹ';
+      const icon = getSeverityIcon(finding.severity);
       console.log(`  ${icon} [${finding.category}] ${finding.message}`);
       if (finding.suggestedFix) {
         console.log(`    Fix: ${finding.suggestedFix}`);

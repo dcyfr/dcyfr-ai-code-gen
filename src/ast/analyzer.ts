@@ -93,6 +93,20 @@ function detectIssues(result: AnalysisResult): AnalysisIssue[] {
   return issues;
 }
 
+function checkNamingConventions(node: ASTNode, issues: AnalysisIssue[]): void {
+  if (node.kind === 'class' || node.kind === 'interface') {
+    if (!/^[A-Z]/.test(node.name) && node.name !== '<anonymous>') {
+      issues.push({
+        type: 'naming',
+        severity: 'warning',
+        message: `${node.kind} '${node.name}' should start with an uppercase letter`,
+        node: node.name,
+        line: node.startLine,
+      });
+    }
+  }
+}
+
 /**
  * Check a single AST node for issues.
  */
@@ -111,30 +125,7 @@ function checkNodeIssues(node: ASTNode, issues: AnalysisIssue[]): void {
   }
 
   // Check naming conventions
-  if (node.kind === 'class' || node.kind === 'interface') {
-    if (!/^[A-Z]/.test(node.name) && node.name !== '<anonymous>') {
-      issues.push({
-        type: 'naming',
-        severity: 'warning',
-        message: `${node.kind} '${node.name}' should start with an uppercase letter`,
-        node: node.name,
-        line: node.startLine,
-      });
-    }
-  }
-
-  if (node.kind === 'function' || node.kind === 'variable') {
-    if (/^[A-Z]/.test(node.name) && node.name !== '<anonymous>') {
-      // Exception: React components (functions starting with uppercase are valid)
-      // Only flag if it doesn't look like a React component or constant
-      const isConstant = /^[A-Z_]+$/.test(node.name);
-      if (!isConstant && node.kind === 'variable') {
-        // Variable starting with uppercase could be a React component or constant - skip
-      } else if (node.kind === 'function') {
-        // Functions starting with uppercase could be React components - skip
-      }
-    }
-  }
+  checkNamingConventions(node, issues);
 
   // Check children recursively
   for (const child of node.children) {

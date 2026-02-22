@@ -7,6 +7,34 @@
 [![Node.js](https://img.shields.io/badge/Node.js-24+-green.svg)](https://nodejs.org/)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 
+---
+
+## ⚡ 30-Second Quick Start
+
+```bash
+# Install package
+npm install @dcyfr/ai-code-gen
+
+# Generate React component
+import { createGeneratorRegistry } from '@dcyfr/ai-code-gen';
+const registry = createGeneratorRegistry();
+await registry.run('component', { name: 'user-card' });
+# ✅ Component generated with tests
+```
+
+---
+
+## 🧭 Related Packages
+
+| Package | Purpose | Type |
+|---------|---------|------|
+| [@dcyfr/ai](../dcyfr-ai) | Core AI framework | npm package |
+| [@dcyfr/ai-cli](../dcyfr-ai-cli) | CLI tool | npm package |
+| [@dcyfr/ai-agents](../dcyfr-ai-agents) | Autonomous agents | Template |
+| [dcyfr-labs](../dcyfr-labs) | Production Next.js app | Application |
+
+---
+
 ## Overview
 
 `@dcyfr/ai-code-gen` is a comprehensive code generation toolkit that combines template-based scaffolding, AST (Abstract Syntax Tree) manipulation, and AI-assisted code generation. It provides a complete pipeline for generating, analyzing, transforming, and reviewing TypeScript code.

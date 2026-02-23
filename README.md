@@ -1,11 +1,14 @@
 # @dcyfr/ai-code-gen
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dcyfr/dcyfr-ai-code-gen)
+
 > AI-powered code generation toolkit with AST manipulation, template engine, and intelligent scaffolding.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24+-green.svg)](https://nodejs.org/)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
+[![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=flat-square&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/dcyfr)
 
 ---
 

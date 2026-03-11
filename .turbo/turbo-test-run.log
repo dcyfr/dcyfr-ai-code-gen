@@ -1,0 +1,326 @@
+
+
+> @dcyfr/ai-code-gen@1.0.0 test:run
+> vitest run
+
+[?25l
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/home/drew/code/dcyfr-workspace/dcyfr-ai-code-gen[39m
+
+[?2026h
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m101ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/generators.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/logger.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m227ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mtests/unit/ai.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-printer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/config.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/file-system.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/generators.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/logger.test.ts[2m 0/23[22m
+[1m[33m ❯ [39m[22mtests/unit/strings.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/template-builtins.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/template-engine.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m444ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/logger.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/unit/config.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/strings.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+
+
+[1m[33m ❯ [39m[22mtests/unit/ai.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 0/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-printer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/file-system.test.ts[2m 0/32[22m
+[1m[33m ❯ [39m[22mtests/unit/generators.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/template-builtins.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/template-engine.test.ts[2m 0/45[22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m59 passed[39m[22m[90m (146)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m544ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/file-system.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/unit/ai.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/unit/template-engine.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 52[2mms[22m[39m
+ [32m✓[39m tests/unit/template-builtins.test.ts [2m([22m[2m33 tests[22m[2m | [22m[33m2 skipped[39m[2m)[22m[32m 87[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 0/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 0/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-printer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22mtests/unit/generators.test.ts[2m 0/34[22m
+
+[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m192 passed[39m[22m[2m | [22m[33m2 skipped[39m[90m (263)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m645ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/generators.test.ts [2m([22m[2m34 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[32m 91[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 0/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 0/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-printer.test.ts[2m 0/14[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 0/35[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m222 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m747ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/ast-printer.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 0/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 1/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 0/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m237 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m948ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 1/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 2/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 0/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m239 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.15s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 2/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 3/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 9/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m250 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.25s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 3/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 4/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 10/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m253 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 4/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 4/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 22/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m266 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.45s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 4/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 5/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 23/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m268 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.55s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 5/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 6/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 24/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m271 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.75s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 6/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 7/10[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-transformer.test.ts[2m 25/35[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m274 passed[39m[22m[2m | [22m[33m6 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m1.85s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/ast-transformer.test.ts [2m([22m[2m35 tests[22m[2m)[22m[33m 1074[2mms[22m[39m
+       [33m[2m✓[22m[39m should rename a function [33m 312[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 13/25[22m
+[1m[33m ❯ [39m[22mtests/unit/ast-parser.test.ts[2m 9/10[22m
+
+[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m288 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m2.05s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/ast-parser.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 1548[2mms[22m[39m
+       [33m[2m✓[22m[39m should parse function declarations [33m 359[2mms[22m[39m
+
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 16/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m292 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m2.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 17/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m293 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m2.66s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 18/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m294 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m2.86s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 19/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m295 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m3.16s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 20/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m296 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m3.36s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 21/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m297 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m3.66s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 21/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m297 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m3.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 22/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m298 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m4.16s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 23/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m299 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m4.36s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 24/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m300 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m4.56s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+
+
+
+[1m[33m ❯ [39m[22mtests/unit/ast-analyzer.test.ts[2m 25/25[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m301 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m11:28:31
+[2m   Duration [22m4.76s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m tests/unit/ast-analyzer.test.ts [2m([22m[2m25 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 4125[2mms[22m[39m
+       [33m[2m✓[22m[39m should analyze a simple file [33m 323[2mms[22m[39m
+       [33m[2m✓[22m[39m should handle empty source files [33m 454[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[32m301 passed[39m[22m[2m | [22m[33m11 skipped[39m[90m (312)[39m
+[2m   Start at [22m 11:28:31
+[2m   Duration [22m 4.85s[2m (transform 1.96s, setup 0ms, import 3.96s, tests 7.09s, environment 2ms)[22m
+
+[?25h⠙[1G[0K

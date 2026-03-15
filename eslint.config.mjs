@@ -1,10 +1,21 @@
-// Extends shared workspace base config.
-// See eslint.config.base.mjs at workspace root for common settings.
-import { createLenientConfig } from '../eslint.config.base.mjs';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-export default createLenientConfig({
-  // Package-specific ignores (base already includes dist, node_modules, coverage, *.config.*)
-  ignores: [],
-  // Lenient mode: no-explicit-any is 'warn' (inherited from base)
-  // no-unused-vars is 'warn' with argsIgnorePattern: '^_' (inherited from base)
-});
+export default [
+  { ignores: ['dist/**', 'node_modules/**', 'coverage/**', '**/*.config.*'] },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
+];

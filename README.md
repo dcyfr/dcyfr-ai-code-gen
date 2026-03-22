@@ -29,12 +29,12 @@ await registry.run('component', { name: 'user-card' });
 
 ## 🧭 Related Packages
 
-| Package | Purpose | Type |
-|---------|---------|------|
-| [@dcyfr/ai](../dcyfr-ai) | Core AI framework | npm package |
-| [@dcyfr/ai-cli](../dcyfr-ai-cli) | CLI tool | npm package |
-| [@dcyfr/ai-agents](../dcyfr-ai-agents) | Autonomous agents | Template |
-| [dcyfr-labs](../dcyfr-labs) | Production Next.js app | Application |
+| Package                                | Purpose                | Type        |
+| -------------------------------------- | ---------------------- | ----------- |
+| [@dcyfr/ai](../dcyfr-ai)               | Core AI framework      | npm package |
+| [@dcyfr/ai-cli](../dcyfr-ai-cli)       | CLI tool               | npm package |
+| [@dcyfr/ai-agents](../dcyfr-ai-agents) | Autonomous agents      | Template    |
+| [dcyfr-labs](../dcyfr-labs)            | Production Next.js app | Application |
 
 ---
 
@@ -43,6 +43,7 @@ await registry.run('component', { name: 'user-card' });
 `@dcyfr/ai-code-gen` is a comprehensive code generation toolkit that combines template-based scaffolding, AST (Abstract Syntax Tree) manipulation, and AI-assisted code generation. It provides a complete pipeline for generating, analyzing, transforming, and reviewing TypeScript code.
 
 **Perfect for:**
+
 - 🚀 Accelerating development with intelligent code scaffolding
 - 🧪 Ensuring consistency across large codebases with standardized patterns
 - 🔍 Automated code quality analysis and refactoring suggestions
@@ -71,17 +72,17 @@ npm install @dcyfr/ai-code-gen
 ### Generate a React Component
 
 ```typescript
-import { createGeneratorRegistry } from '@dcyfr/ai-code-gen';
+import { createGeneratorRegistry } from "@dcyfr/ai-code-gen";
 
 const registry = createGeneratorRegistry();
 
-const result = await registry.run('component', {
-  name: 'user-card',
-  outputDir: 'src/components',
+const result = await registry.run("component", {
+  name: "user-card",
+  outputDir: "src/components",
   options: {
     props: [
-      { name: 'name', type: 'string', required: true },
-      { name: 'avatar', type: 'string' },
+      { name: "name", type: "string", required: true },
+      { name: "avatar", type: "string" },
     ],
     useClient: true,
     withTest: true,
@@ -96,7 +97,7 @@ for (const file of result.files) {
 ### Analyze TypeScript Code
 
 ```typescript
-import { analyzeCode } from '@dcyfr/ai-code-gen';
+import { analyzeCode } from "@dcyfr/ai-code-gen";
 
 const analysis = analyzeCode(`
   function processData(input: any) {
@@ -119,12 +120,12 @@ console.log(analysis.issues);
 ### Transform Code with AST
 
 ```typescript
-import { transform } from '@dcyfr/ai-code-gen';
+import { transform } from "@dcyfr/ai-code-gen";
 
 const result = transform(sourceCode, [
-  { type: 'add-import', moduleSpecifier: 'zod', namedImports: ['z'] },
-  { type: 'rename', oldName: 'fetchData', newName: 'loadData' },
-  { type: 'add-export', exportName: 'UserSchema' },
+  { type: "add-import", moduleSpecifier: "zod", namedImports: ["z"] },
+  { type: "rename", oldName: "fetchData", newName: "loadData" },
+  { type: "add-export", exportName: "UserSchema" },
 ]);
 
 console.log(result.source);
@@ -133,13 +134,17 @@ console.log(result.source);
 ### Use the Template Engine
 
 ```typescript
-import { TemplateEngine } from '@dcyfr/ai-code-gen';
+import { TemplateEngine } from "@dcyfr/ai-code-gen";
 
 const engine = new TemplateEngine();
 
 const result = engine.renderSource(
-  'export function {{camelCase name}}({{#each params}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}): {{returnType}} {}',
-  { name: 'get-user-data', params: ['id: string', 'options?: Options'], returnType: 'Promise<User>' }
+  "export function {{camelCase name}}({{#each params}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}): {{returnType}} {}",
+  {
+    name: "get-user-data",
+    params: ["id: string", "options?: Options"],
+    returnType: "Promise<User>",
+  },
 );
 
 console.log(result.content);
@@ -148,16 +153,17 @@ console.log(result.content);
 
 ## Built-in Generators
 
-| Generator | Description | Output |
-|-----------|-------------|--------|
-| `component` | React functional component with TypeScript | `.tsx` + barrel export |
-| `api-route` | Next.js API route handler | `.ts` with GET/POST/PUT/DELETE |
-| `model` | Zod schema data model | `.ts` with schema + types + factory |
-| `test` | Vitest test file | `.test.ts` with describe/it scaffolding |
+| Generator   | Description                                | Output                                  |
+| ----------- | ------------------------------------------ | --------------------------------------- |
+| `component` | React functional component with TypeScript | `.tsx` + barrel export                  |
+| `api-route` | Next.js API route handler                  | `.ts` with GET/POST/PUT/DELETE          |
+| `model`     | Zod schema data model                      | `.ts` with schema + types + factory     |
+| `test`      | Vitest test file                           | `.test.ts` with describe/it scaffolding |
 
 ## Built-in Template Helpers
 
 ### Case Conversion
+
 - `{{pascalCase name}}` → `UserProfile`
 - `{{camelCase name}}` → `userProfile`
 - `{{kebabCase name}}` → `user-profile`
@@ -165,11 +171,13 @@ console.log(result.content);
 - `{{constantCase name}}` → `USER_PROFILE`
 
 ### Conditionals
+
 - `{{#if condition}}...{{/if}}`
 - `{{#unless condition}}...{{/unless}}`
 - `{{eq a b}}`, `{{neq a b}}`, `{{or a b}}`, `{{and a b}}`, `{{not a}}`
 
 ### Utilities
+
 - `{{pluralize word}}` — Simple pluralization
 - `{{join array ", "}}` — Join array elements
 - `{{timestamp}}` — ISO timestamp
@@ -180,30 +188,44 @@ console.log(result.content);
 ## AST Module
 
 ### Parse
-```typescript
-import { parseSource, parseFile } from '@dcyfr/ai-code-gen';
 
-const ast = parseSource('class User { name: string; }');
+```typescript
+import { parseSource, parseFile } from "@dcyfr/ai-code-gen";
+
+const ast = parseSource("class User { name: string; }");
 // Returns: classes, interfaces, functions, types, enums, variables, imports, exports, metrics
 ```
 
 ### Transform
+
 ```typescript
-import { transform } from '@dcyfr/ai-code-gen';
+import { transform } from "@dcyfr/ai-code-gen";
 
 const result = transform(source, [
-  { type: 'add-import', moduleSpecifier: 'zod', namedImports: ['z'] },
-  { type: 'remove-import', moduleSpecifier: 'lodash' },
-  { type: 'add-property', className: 'User', propertyName: 'email', propertyType: 'string' },
-  { type: 'add-method', className: 'User', methodName: 'validate', returnType: 'boolean', body: 'return true;' },
-  { type: 'rename', oldName: 'oldFunc', newName: 'newFunc' },
-  { type: 'add-export', exportName: 'MyType' },
+  { type: "add-import", moduleSpecifier: "zod", namedImports: ["z"] },
+  { type: "remove-import", moduleSpecifier: "lodash" },
+  {
+    type: "add-property",
+    className: "User",
+    propertyName: "email",
+    propertyType: "string",
+  },
+  {
+    type: "add-method",
+    className: "User",
+    methodName: "validate",
+    returnType: "boolean",
+    body: "return true;",
+  },
+  { type: "rename", oldName: "oldFunc", newName: "newFunc" },
+  { type: "add-export", exportName: "MyType" },
 ]);
 ```
 
 ### Analyze
+
 ```typescript
-import { analyzeCode, compareStructure } from '@dcyfr/ai-code-gen';
+import { analyzeCode, compareStructure } from "@dcyfr/ai-code-gen";
 
 const analysis = analyzeCode(source);
 // Detects: dead-code, complexity, naming, missing-jsdoc, large-file issues
@@ -213,33 +235,53 @@ const diff = compareStructure(oldSource, newSource);
 ```
 
 ### Format
+
 ```typescript
-import { formatTypeScript, addLicenseHeader, generateJsDoc } from '@dcyfr/ai-code-gen';
+import {
+  formatTypeScript,
+  addLicenseHeader,
+  generateJsDoc,
+} from "@dcyfr/ai-code-gen";
 
 const formatted = formatTypeScript(source, { singleQuote: true, tabWidth: 2 });
-const withHeader = addLicenseHeader(source, 'MIT', 2026);
-const doc = generateJsDoc({ description: 'Process data', params: [{ name: 'input', type: 'string' }] });
+const withHeader = addLicenseHeader(source, "MIT", 2026);
+const doc = generateJsDoc({
+  description: "Process data",
+  params: [{ name: "input", type: "string" }],
+});
 ```
 
 ## AI Integration
 
 ```typescript
-import { createAICodeGenerator } from '@dcyfr/ai-code-gen';
+import { createAICodeGenerator } from "@dcyfr/ai-code-gen";
 
 // Uses MockAIProvider by default; plug in your own AIProvider for real AI
-const ai = createAICodeGenerator({ provider: 'mock', model: 'gpt-4' });
+const ai = createAICodeGenerator({ provider: "mock", model: "gpt-4" });
 
 // Generate code
-const generated = await ai.generateCode({ prompt: 'Create a user service', language: 'TypeScript' });
+const generated = await ai.generateCode({
+  prompt: "Create a user service",
+  language: "TypeScript",
+});
 
 // Review code
-const review = await ai.reviewCode({ code: sourceCode, language: 'TypeScript' });
+const review = await ai.reviewCode({
+  code: sourceCode,
+  language: "TypeScript",
+});
 
 // Suggest refactoring
-const suggestions = await ai.suggestRefactoring({ code: sourceCode, language: 'TypeScript' });
+const suggestions = await ai.suggestRefactoring({
+  code: sourceCode,
+  language: "TypeScript",
+});
 
 // Generate documentation
-const docs = await ai.generateDocs({ code: sourceCode, language: 'TypeScript' });
+const docs = await ai.generateDocs({
+  code: sourceCode,
+  language: "TypeScript",
+});
 ```
 
 ## CLI Usage
@@ -264,22 +306,20 @@ npx dcyfr-codegen help
 ## Custom Templates
 
 ```typescript
-import { TemplateEngine } from '@dcyfr/ai-code-gen';
+import { TemplateEngine } from "@dcyfr/ai-code-gen";
 
 const engine = new TemplateEngine();
 
 engine.registerTemplate({
-  id: 'my-template',
-  name: 'Custom Template',
-  description: 'My custom code template',
-  outputExtension: '.ts',
-  variables: [
-    { name: 'name', type: 'string', required: true },
-  ],
-  source: 'export class {{pascalCase name}} {\n  // TODO: implement\n}\n',
+  id: "my-template",
+  name: "Custom Template",
+  description: "My custom code template",
+  outputExtension: ".ts",
+  variables: [{ name: "name", type: "string", required: true }],
+  source: "export class {{pascalCase name}} {\n  // TODO: implement\n}\n",
 });
 
-const result = engine.render('my-template', { name: 'my-service' });
+const result = engine.render("my-template", { name: "my-service" });
 ```
 
 ## Documentation
@@ -302,10 +342,14 @@ Comprehensive guides for mastering code generation:
 
 ## Examples
 
+See [`examples/README.md`](examples/README.md) for a quick runbook and per-example type-check commands.
+
 Three comprehensive executable examples showcasing advanced patterns:
 
 ### 1. Custom Generator ([examples/custom-generator.ts](examples/custom-generator.ts))
+
 Build a complete feature generator with:
+
 - Zod schema validation
 - Generator hooks (beforeGenerate, afterGenerate, postProcess)
 - Multi-file generation (service, repository, schema, tests, barrel exports)
@@ -313,7 +357,9 @@ Build a complete feature generator with:
 - Full CRUD operations with Prisma/Drizzle support
 
 ### 2. AST Refactoring ([examples/ast-refactoring.ts](examples/ast-refactoring.ts))
+
 Complex code transformation workflows:
+
 - Migrate React class components → function components with hooks
 - Add dependency injection decorators
 - Modernize callbacks → promises → async/await
@@ -322,7 +368,9 @@ Complex code transformation workflows:
 - Batch refactoring multiple files
 
 ### 3. Template Composition ([examples/template-composition.ts](examples/template-composition.ts))
+
 Advanced Handlebars patterns:
+
 - Reusable partials for file headers, imports, JSDoc
 - Template inheritance with base layouts
 - Dynamic component generation from data
@@ -332,6 +380,7 @@ Advanced Handlebars patterns:
 - Dynamic form generation with Zod validation
 
 Run examples:
+
 ```bash
 npx tsx examples/custom-generator.ts
 npx tsx examples/ast-refactoring.ts
@@ -377,33 +426,43 @@ npx tsx examples/template-composition.ts
 ### Common Issues
 
 **Template rendering fails**
+
 ```
 Error: Missing required variable 'name'
 ```
+
 **Solution:** Ensure all required variables are provided in template data.
 
 **AST transformation fails**
+
 ```
 Error: Cannot find class 'UserService'
 ```
+
 **Solution:** Verify class exists in source before applying transformation. Use `parseSource()` to inspect AST structure.
 
 **Code analysis detects false positives**
+
 ```
 Warning: any-type detected at line 15
 ```
+
 **Solution:** Update analysis rules or add `// @ts-ignore` comments for intentional `any` usage.
 
 **AI rate limit exceeded**
+
 ```
 RateLimitError: Too many requests
 ```
+
 **Solution:** Implement retry logic with exponential backoff. Consider using a rate limiter utility.
 
 **Generated code doesn't compile**
+
 ```
 TS2304: Cannot find name 'User'
 ```
+
 **Solution:** Ensure required imports are added. Use `add-import` transformation before generating code.
 
 ### Getting Help
@@ -454,18 +513,21 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 ## Roadmap
 
 ### v1.1 (Q2 2026)
+
 - [ ] Additional AI providers (Google Gemini, Mistral, local LLMs)
 - [ ] Visual Studio Code extension
 - [ ] Interactive CLI with prompts
 - [ ] Generator marketplace
 
 ### v1.2 (Q3 2026)
+
 - [ ] Support for Python, Java, and Go code generation
 - [ ] Advanced refactoring patterns (design pattern migration)
 - [ ] Real-time code review in IDE
 - [ ] Team collaboration features
 
 ### v2.0 (Q4 2026)
+
 - [ ] Multi-file project scaffolding
 - [ ] AI-powered architecture suggestions
 - [ ] Code migration tool (React Class → Hooks, JavaScript → TypeScript)

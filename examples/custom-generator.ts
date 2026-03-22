@@ -12,13 +12,14 @@
 
 import { z } from 'zod';
 import {
-  createGenerator,
+  BaseGenerator,
   createGeneratorRegistry,
-  renderTemplate,
+  createTemplateEngine,
   formatTypeScript,
-  addImport,
-  type Generator,
+  type GeneratorMeta,
+  type GeneratorConfig,
   type GeneratedFile,
+  type ValidationError,
 } from '@dcyfr/ai-code-gen';
 
 // ============================================================================
@@ -41,38 +42,34 @@ type FeatureOptions = z.infer<typeof featureOptionsSchema>;
 // 2. Create Custom Feature Generator
 // ============================================================================
 
-const featureGenerator: Generator = createGenerator({
-  id: 'feature',
-  name: 'Feature Generator',
-  description: 'Generate a complete feature with service, repository, and tests',
-  
-  optionsSchema: featureOptionsSchema,
-  
-  // Hook: Run before generation
-  async beforeGenerate(data, options) {
-    console.log(`Generating feature: ${data.name}`);
-    console.log(`Type: ${options.type}`);
-    
-    // Validate feature name follows conventions
-    if (!/^[A-Z][a-zA-Z0-9]*$/.test(data.name)) {
-      throw new Error('Feature name must be PascalCase (e.g., UserProfile)');
-    }
-    
-    return { data, options };
-  },
-  
-  // Main generation logic
-  async generate(data, options) {
+class FeatureGenerator extends BaseGenerator {
+  readonly meta: GeneratorMeta = {
+    name: 'feature',
+    description: 'Generate a complete feature with service, repository, and tests',
+    category: 'custom',
+    version: '1.0.0',
+  };
+
+  protected async generateFiles(config: GeneratorConfig): Promise<GeneratedFile[]> {
+    const { name, outputDir } = config;
+    const opts = config.options ?? {};
+    const type = (opts.type as string) ?? 'crud';
+    const useValidation = (opts.useValidation as boolean) ?? true;
+    const useAuth = (opts.useAuth as boolean) ?? false;
+    const database = (opts.database as string) ?? 'none';
+    const includeTests = (opts.includeTests as boolean) ?? true;
+
+    console.log(`Generating feature: ${name}`);
+    console.log(`Type: ${type}`);
+
     const files: GeneratedFile[] = [];
-    const { name } = data;
-    const { type, useValidation, useAuth, database, includeTests, outputDir } = options;
-    
+
     // Generate interface file
     files.push({
       path: `${outputDir}/${name.toLowerCase()}/${name.toLowerCase()}.interface.ts`,
       content: generateInterface(name, type),
     });
-    
+
     // Generate service file
     if (type === 'crud' || type === 'service') {
       files.push({
@@ -80,7 +77,7 @@ const featureGenerator: Generator = createGenerator({
         content: generateService(name, { useValidation, useAuth, database }),
       });
     }
-    
+
     // Generate repository file
     if (type === 'crud' || type === 'repository') {
       files.push({
@@ -88,7 +85,7 @@ const featureGenerator: Generator = createGenerator({
         content: generateRepository(name, database),
       });
     }
-    
+
     // Generate validation schema
     if (useValidation) {
       files.push({
@@ -96,7 +93,7 @@ const featureGenerator: Generator = createGenerator({
         content: generateSchema(name),
       });
     }
-    
+
     // Generate tests
     if (includeTests) {
       files.push({
@@ -104,47 +101,38 @@ const featureGenerator: Generator = createGenerator({
         content: generateTests(name, type),
       });
     }
-    
+
     // Generate barrel export
     files.push({
       path: `${outputDir}/${name.toLowerCase()}/index.ts`,
       content: generateBarrelExport(name, { useValidation, type }),
     });
-    
-    return files;
-  },
-  
-  // Hook: Run after generation
-  async afterGenerate(files, data, options) {
-    console.log(`Generated ${files.length} files for ${data.name} feature`);
-    return files;
-  },
-  
-  // Hook: Post-process generated files
-  async postProcess(files) {
-    const processedFiles: GeneratedFile[] = [];
-    
-    for (const file of files) {
+
+    // Post-process: format TypeScript and add license header
+    return files.map(file => {
       let content = file.content;
-      
-      // Format TypeScript files
       if (file.path.endsWith('.ts')) {
-        content = formatTypeScript(content, {
-          singleQuote: true,
-          semi: true,
-          tabWidth: 2,
-        });
+        content = formatTypeScript(content);
       }
-      
-      // Add license header to all files
       content = addLicenseHeader(content);
-      
-      processedFiles.push({ ...file, content });
+      return { ...file, content };
+    });
+  }
+
+  protected validateConfig(config: GeneratorConfig): ValidationError[] {
+    const errors: ValidationError[] = [];
+    if (!/^[A-Z][a-zA-Z0-9]*$/.test(config.name)) {
+      errors.push({
+        field: 'name',
+        message: 'Feature name must be PascalCase (e.g., UserProfile)',
+      });
     }
-    
-    return processedFiles;
-  },
-});
+    return errors;
+  }
+}
+
+const templateEngine = createTemplateEngine();
+const featureGenerator = new FeatureGenerator(templateEngine);
 
 // ============================================================================
 // 3. Template Generation Functions
@@ -468,33 +456,33 @@ function addLicenseHeader(content: string): string {
 async function main() {
   // Create registry and register custom generator
   const registry = createGeneratorRegistry();
-  registry.register('feature', featureGenerator);
+  registry.register(featureGenerator);
   
   console.log('Registered generators:', registry.list());
   
   // Generate a User feature with CRUD operations
   console.log('\n--- Generating User Feature ---\n');
   
-  const files = await registry.run('feature', 
-    { name: 'User' },
-    {
+  const result = await registry.run('feature', {
+    name: 'User',
+    outputDir: './src/features',
+    options: {
       type: 'crud',
       useValidation: true,
       useAuth: true,
       database: 'prisma',
       includeTests: true,
-      outputDir: './src/features',
-    }
-  );
+    },
+  });
   
-  console.log(`\nGenerated ${files.length} files:\n`);
-  files.forEach(file => {
+  console.log(`\nGenerated ${result.files.length} files:\n`);
+  result.files.forEach(file => {
     console.log(`📄 ${file.path}`);
     console.log(`   ${file.content.split('\n').length} lines\n`);
   });
   
   // Preview generated service file
-  const serviceFile = files.find(f => f.path.includes('.service.ts'));
+  const serviceFile = result.files.find(f => f.path.includes('.service.ts'));
   if (serviceFile) {
     console.log('--- User Service (Preview) ---\n');
     console.log(serviceFile.content.split('\n').slice(0, 30).join('\n'));

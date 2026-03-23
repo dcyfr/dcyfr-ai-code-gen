@@ -10,6 +10,15 @@
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 [![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=flat-square&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/dcyfr)
 
+## About DCYFR
+
+`@dcyfr/ai-code-gen` is maintained by **DCYFR Labs** as part of the DCYFR AI tooling portfolio.
+
+- **DCYFR** is a registered trademark of DCYFR Labs.
+- Primary domain: [www.dcyfr.ai](https://www.dcyfr.ai)
+- Trademark guidance: [../TRADEMARK.md](../TRADEMARK.md)
+- Licensing details: [LICENSE](./LICENSE)
+
 ---
 
 ## ⚡ 30-Second Quick Start

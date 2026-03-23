@@ -52,7 +52,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: ''
       - run: npm install
-      - run: npm run test:coverage
+      - run: npm run test:run
       - name: Upload coverage
         if: matrix.node-version == '22'
         uses: actions/upload-artifact@v7

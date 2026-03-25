@@ -11,11 +11,11 @@
 
 import {
   parseSource,
-  applyTransformations,
+  transform,
   analyzeCode,
   formatTypeScript,
-  type ASTStructure,
-  type CodeTransformation,
+  type ASTNode,
+  type TransformOperation,
 } from '@dcyfr/ai-code-gen';
 
 // ============================================================================
@@ -97,20 +97,21 @@ async function migrateClassToFunction(code: string): Promise<string> {
   const ast = parseSource(code);
   
   // Extract class information
-  const classInfo = ast.classes[0];
-  if (!classInfo) {
+  const classNode = ast.nodes.find((n: ASTNode) => n.kind === 'class');
+  if (!classNode) {
     throw new Error('No class found to migrate');
   }
   
   // Build function component
-  const { name, methods, properties } = classInfo;
+  const name = classNode.name;
+  const methods = classNode.children.filter((c: ASTNode) => c.kind === 'method');
   
   // Convert class methods to hooks and handlers
   const hookCode: string[] = [];
   const handlerCode: string[] = [];
   
   // Map lifecycle methods to hooks
-  if (methods.some(m => m.name === 'componentDidMount')) {
+  if (methods.some((m: ASTNode) => m.name === 'componentDidMount')) {
     hookCode.push(`
   useEffect(() => {
     fetchUser();
@@ -118,7 +119,7 @@ async function migrateClassToFunction(code: string): Promise<string> {
     `);
   }
   
-  if (methods.some(m => m.name === 'componentDidUpdate')) {
+  if (methods.some((m: ASTNode) => m.name === 'componentDidUpdate')) {
     hookCode.push(`
   useEffect(() => {
     fetchUser();
@@ -204,35 +205,34 @@ export class UserService {
 `;
 
 async function addDependencyInjection(code: string): Promise<string> {
-  const transformations: CodeTransformation[] = [
+  const transformations: TransformOperation[] = [
     // Add imports
     {
       type: 'add-import',
       moduleSpecifier: 'tsyringe',
       namedImports: ['injectable', 'inject'],
     },
-    // Add @injectable decorator to class
-    {
-      type: 'add-decorator',
-      className: 'UserService',
-      decorator: '@injectable()',
-    },
-    // Add @inject decorators to constructor parameters
-    {
-      type: 'add-constructor-parameter-decorator',
-      className: 'UserService',
-      parameterName: 'userRepository',
-      decorator: "@inject('UserRepository')",
-    },
-    {
-      type: 'add-constructor-parameter-decorator',
-      className: 'UserService',
-      parameterName: 'logger',
-      decorator: "@inject('Logger')",
-    },
   ];
   
-  return applyTransformations(code, transformations);
+  // Apply supported AST transforms (import injection)
+  const result = transform(code, transformations);
+  let injectedCode = result.source;
+  
+  // Decorator injection via string replacement (decorator transforms require custom processing)
+  injectedCode = injectedCode.replace(
+    'export class UserService',
+    '@injectable()\nexport class UserService'
+  );
+  injectedCode = injectedCode.replace(
+    'private userRepository: UserRepository',
+    "@inject('UserRepository') private userRepository: UserRepository"
+  );
+  injectedCode = injectedCode.replace(
+    'private logger: Logger',
+    "@inject('Logger') private logger: Logger"
+  );
+  
+  return formatTypeScript(injectedCode);
 }
 
 // ============================================================================
@@ -414,22 +414,23 @@ export class EmailService {
 
 async function extractInterface(code: string): Promise<string> {
   const ast = parseSource(code);
-  const classInfo = ast.classes[0];
+  const classNode = ast.nodes.find((n: ASTNode) => n.kind === 'class');
   
-  if (!classInfo) {
+  if (!classNode) {
     throw new Error('No class found');
   }
   
   // Generate interface from public methods
-  const { name, methods } = classInfo;
+  const name = classNode.name;
   const interfaceName = `I${name}`;
   
+  const methods = classNode.children.filter((c: ASTNode) => c.kind === 'method');
+  
+  // ASTNode provides name/kind but not parameter/return-type details;
+  // generate placeholder signatures that can be refined manually.
   const methodSignatures = methods
-    .filter(m => !m.name.startsWith('_')) // Exclude private methods
-    .map(m => {
-      const params = m.parameters.map(p => `${p.name}: ${p.type}`).join(', ');
-      return `  ${m.name}(${params}): ${m.returnType};`;
-    })
+    .filter((m: ASTNode) => !m.name.startsWith('_')) // Exclude private methods
+    .map((m: ASTNode) => `  ${m.name}(...args: unknown[]): unknown;`)
     .join('\n');
   
   const interfaceCode = `
@@ -512,11 +513,7 @@ async function main() {
   // Chain multiple transformations
   transformedCode = await extractInterface(transformedCode);
   transformedCode = await addDependencyInjection(transformedCode);
-  transformedCode = formatTypeScript(transformedCode, {
-    singleQuote: true,
-    semi: true,
-    tabWidth: 2,
-  });
+  transformedCode = formatTypeScript(transformedCode);
   
   console.log(transformedCode.split('\n').slice(0, 25).join('\n'));
   console.log('... (truncated)\n');

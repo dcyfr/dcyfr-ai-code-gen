@@ -76,11 +76,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dcyfr/dcyfr-ai-code-gen.git"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-code-gen.git"
   },
-  "homepage": "https://github.com/dcyfr/dcyfr-ai-code-gen#readme",
+  "homepage": "https://github.com/dcyfr-labs/dcyfr-ai-code-gen#readme",
   "bugs": {
-    "url": "https://github.com/dcyfr/dcyfr-ai-code-gen/issues"
+    "url": "https://github.com/dcyfr-labs/dcyfr-ai-code-gen/issues"
   },
   "publishConfig": {
     "access": "public"

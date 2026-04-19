@@ -1,0 +1,8 @@
+{
+  "repo_notes": [
+    {
+      "content": "Code generation tools for the DCYFR AI framework. Document the code generation patterns, template system, AST manipulation, and integration with the core framework for automated code creation and refactoring.",
+      "author": "DCYFR Engineering"
+    }
+  ]
+}
